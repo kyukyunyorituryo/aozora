@@ -116,6 +116,19 @@ var TurndownService = (function () {
       return '｜' + content // ふりがなをつける部分を｜で区切る
     }
   };
+  rules.tcy = {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'SPAN' &&
+        node.getAttribute('class') === 'tcy'
+      )
+    },
+
+    replacement: function (content, node, options) {
+          return content + '［＃「'+ content + '」は縦中横］'
+    }
+  };
+
   rules.heading = {
     filter: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
 
@@ -280,12 +293,12 @@ var TurndownService = (function () {
 
     replacement: function (content, node, options) {
       if (!content.trim()) return ''
-      return '［＃左に傍線］'+ content + '［＃左に傍線終わり］'
+      return '［＃傍線］'+ content + '［＃傍線終わり］'
     }
   };
 
   rules.del = {
-    filter: ['del'],
+    filter: ['del','s'],
 
     replacement: function (content, node, options) {
       if (!content.trim()) return ''
